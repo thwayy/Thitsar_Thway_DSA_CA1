@@ -9,7 +9,7 @@ package GUI;
  * @author Thitsar Thway
  */
 public class PersonsGUI extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PersonsGUI.class.getName());
 
     /**
@@ -17,6 +17,8 @@ public class PersonsGUI extends javax.swing.JFrame {
      */
     public PersonsGUI() {
         initComponents();
+        volunteerRB.setSelected(true);
+
     }
 
     /**
@@ -67,9 +69,21 @@ public class PersonsGUI extends javax.swing.JFrame {
 
         traverseBtn.setText("Traverse");
 
+        roleBg.add(volunteerRB);
         volunteerRB.setText("Volunteer");
+        volunteerRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volunteerRBActionPerformed(evt);
+            }
+        });
 
+        roleBg.add(residentRB);
         residentRB.setText("Resident");
+        residentRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                residentRBActionPerformed(evt);
+            }
+        });
 
         idLbl.setText("Id");
 
@@ -97,27 +111,24 @@ public class PersonsGUI extends javax.swing.JFrame {
                         .addComponent(welcomeLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(phoneLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(availabilityLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(availabilityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(nameLbl)
                                     .addComponent(idLbl))
-                                .addGap(18, 18, 18)
+                                .addGap(34, 34, 34)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(phoneLbl)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(availabilityLbl)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(availabilityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addBtn)
@@ -162,9 +173,9 @@ public class PersonsGUI extends javax.swing.JFrame {
                             .addComponent(nameLbl)
                             .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(phoneLbl)
-                            .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneLbl))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(availabilityLbl)
@@ -191,6 +202,18 @@ public class PersonsGUI extends javax.swing.JFrame {
         myGUI.setVisible(true);
         dispose();
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void volunteerRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerRBActionPerformed
+        // TODO add your handling code here:
+        availabilityLbl.setVisible(true);
+        availabilityTF.setVisible(true);
+    }//GEN-LAST:event_volunteerRBActionPerformed
+
+    private void residentRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_residentRBActionPerformed
+        // TODO add your handling code here:
+        availabilityLbl.setVisible(false);
+        availabilityTF.setVisible(false);
+    }//GEN-LAST:event_residentRBActionPerformed
 
     /**
      * @param args the command line arguments
