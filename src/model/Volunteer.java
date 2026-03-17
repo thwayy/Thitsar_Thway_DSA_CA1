@@ -29,7 +29,7 @@ public class Volunteer extends Person {
 
     @Override
     public String getInfo() {
-        return "Id: "+getId()+"\nName: "+getName()+"\nPhone: "+getPhone()+"\nAvailability: "+getAvailability()+"\n";
+        return "Volunteer Id: "+getId()+"\nVolunteer Name: "+getName()+"\nPhone: "+getPhone()+"\nAvailability: "+getAvailability()+"\n";
     }
     
     

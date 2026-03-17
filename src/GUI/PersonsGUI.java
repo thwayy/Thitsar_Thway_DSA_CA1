@@ -27,7 +27,7 @@ public class PersonsGUI extends javax.swing.JFrame {
         initComponents();
         volunteerRB.setSelected(true);
         myList = new MySLL();
-        idTF.setText(String.valueOf(myList.size()));
+        idTF.setText(String.valueOf(myList.size() + 1));
     }
 
     /**
@@ -73,6 +73,11 @@ public class PersonsGUI extends javax.swing.JFrame {
         });
 
         deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         updateBtn.setText("Update");
 
@@ -253,11 +258,20 @@ public class PersonsGUI extends javax.swing.JFrame {
         int id = Integer.parseInt(idTF.getText());
         String name = nameTF.getText();
         String phone = phoneTF.getText();
+        
         if (volunteerRB.isSelected()) {
             String availability = availabilityTF.getText();
+            if(name.isEmpty()||phone.isEmpty()||availability.isEmpty()){
+                JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
+                return;
+            }
             Volunteer v = new Volunteer(id, name, phone, availability);
             myList.add(v);
         } else if (residentRB.isSelected()) {
+            if(name.isEmpty()||phone.isEmpty()){
+                JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
+                return;
+            }
             Resident r = new Resident(id, name, phone);
             myList.add(r);
         } else {
@@ -265,7 +279,7 @@ public class PersonsGUI extends javax.swing.JFrame {
             return;
         }
         JOptionPane.showMessageDialog(rootPane, "Person added successfully.");
-        idTF.setText(String.valueOf(myList.size()));
+        idTF.setText(String.valueOf(myList.size()+1));
         nameTF.setText("");
         phoneTF.setText("");
         availabilityTF.setText("");
@@ -300,6 +314,29 @@ public class PersonsGUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_displaySelectedBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        try{
+            //get the id to delete
+            int deleteId = Integer.parseInt(JOptionPane.showInputDialog("Please enter id of person to remove"));
+            //find it in list
+            for(int i = 1;i<=myList.size();i++){
+                SLNode node = (SLNode) myList.get(i);
+                Person p = (Person) node.getElement();
+                if(p.getId()==deleteId){
+                    myList.remove(i);
+                    JOptionPane.showMessageDialog(rootPane, "Person with id "+deleteId+ " was removed successfully.");
+                    return;
+                }
+            }
+            //not found
+            JOptionPane.showMessageDialog(rootPane, "Id not found.");
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a number for the id.");
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     /**
      * @param args the command line arguments

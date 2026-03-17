@@ -17,7 +17,7 @@ public class Resident extends Person{
 
     @Override
     public String getInfo() {
-        return "Id: "+getId()+"\nName: "+getName()+"\nPhone: "+getPhone()+"\n";
+        return "Resident Id: "+getId()+"\nResident Name: "+getName()+"\nPhone: "+getPhone()+"\n";
     }
     
 }
