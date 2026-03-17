@@ -4,6 +4,11 @@
  */
 package GUI;
 
+import javax.swing.JOptionPane;
+import model.Resident;
+import model.Volunteer;
+import personpkg.MySLL;
+
 /**
  *
  * @author Thitsar Thway
@@ -11,6 +16,7 @@ package GUI;
 public class PersonsGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PersonsGUI.class.getName());
+    private MySLL myList;
 
     /**
      * Creates new form ResidentsGUI
@@ -18,7 +24,8 @@ public class PersonsGUI extends javax.swing.JFrame {
     public PersonsGUI() {
         initComponents();
         volunteerRB.setSelected(true);
-
+        myList = new MySLL();
+        idTF.setText(String.valueOf(myList.size()));
     }
 
     /**
@@ -56,6 +63,11 @@ public class PersonsGUI extends javax.swing.JFrame {
         welcomeLbl.setText("Persons");
 
         addBtn.setText("Add");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
 
         deleteBtn.setText("Delete");
 
@@ -66,6 +78,11 @@ public class PersonsGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(displayTA);
 
         displayAllBtn.setText("Display All");
+        displayAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayAllBtnActionPerformed(evt);
+            }
+        });
 
         traverseBtn.setText("Traverse");
 
@@ -122,10 +139,13 @@ public class PersonsGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(availabilityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameLbl)
-                                    .addComponent(idLbl))
-                                .addGap(34, 34, 34)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(idLbl)
+                                        .addGap(38, 38, 38))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(nameLbl)
+                                        .addGap(34, 34, 34)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -214,6 +234,35 @@ public class PersonsGUI extends javax.swing.JFrame {
         availabilityLbl.setVisible(false);
         availabilityTF.setVisible(false);
     }//GEN-LAST:event_residentRBActionPerformed
+
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        // TODO add your handling code here:
+        //grab text from text fields
+        int id = Integer.parseInt(idTF.getText());
+        String name = nameTF.getText();
+        String phone = phoneTF.getText();
+        if (volunteerRB.isSelected()) {
+            String availability = availabilityTF.getText();
+            Volunteer v = new Volunteer(id, name, phone, availability);
+            myList.add(v);
+        } else if (residentRB.isSelected()) {
+            Resident r = new Resident(id, name, phone);
+            myList.add(r);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Please select a role.");
+            return;
+        }
+        JOptionPane.showMessageDialog(rootPane, "Person added successfully.");
+        idTF.setText(String.valueOf(myList.size()));
+        nameTF.setText("");
+        phoneTF.setText("");
+        availabilityTF.setText("");
+    }//GEN-LAST:event_addBtnActionPerformed
+
+    private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_displayAllBtnActionPerformed
 
     /**
      * @param args the command line arguments

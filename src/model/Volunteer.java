@@ -14,8 +14,8 @@ public class Volunteer extends Person {
     
     private String availability;
 
-    public Volunteer(int id, String name, String phone, String mail, String availability) {
-        super(id, name, phone, mail);
+    public Volunteer(int id, String name, String phone, String availability) {
+        super(id, name, phone);
         this.availability = availability;
     }
 
@@ -25,6 +25,11 @@ public class Volunteer extends Person {
 
     public void setAvailability(String availability) {
         this.availability = availability;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Id: "+getId()+"\nName: "+getName()+"\nPhone: "+getPhone()+"\nAvailability"+getAvailability();
     }
     
     

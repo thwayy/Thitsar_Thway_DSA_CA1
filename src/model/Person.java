@@ -13,21 +13,11 @@ public abstract class Person {
     private int id;
     private String name;
     private String phone;
-    private String mail;
     
-    public Person(int id, String name, String phone, String mail) {
+    public Person(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.mail = mail;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
     }
 
     public int getId() {
@@ -49,8 +39,7 @@ public abstract class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
     
-    
+    public abstract String getInfo();
     
 }
