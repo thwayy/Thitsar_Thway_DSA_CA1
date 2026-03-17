@@ -20,4 +20,6 @@ public interface QueueInterface {
 
     public Object dequeue();
     
+    public String printQueue();
+    
 }

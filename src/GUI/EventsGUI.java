@@ -1,5 +1,11 @@
 package GUI;
 
+import eventpkg.MyQueue;
+import eventpkg.QueueInterface;
+import javax.swing.JOptionPane;
+import model.Event;
+import model.Volunteer;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,12 +18,13 @@ package GUI;
 public class EventsGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EventsGUI.class.getName());
-
+    private QueueInterface myQueue;
     /**
      * Creates new form eventsGUI
      */
     public EventsGUI() {
         initComponents();
+        myQueue = new MyQueue();
     }
 
     /**
@@ -32,18 +39,19 @@ public class EventsGUI extends javax.swing.JFrame {
         welcomeLbl = new javax.swing.JLabel();
         titleLbl = new javax.swing.JLabel();
         dateLbl = new javax.swing.JLabel();
-        avenueLbl = new javax.swing.JLabel();
+        venueLbl = new javax.swing.JLabel();
         assignedVolunteersLbl = new javax.swing.JLabel();
         assignedVolunteersCB = new javax.swing.JComboBox<>();
         titleTF = new javax.swing.JTextField();
         dateTF = new javax.swing.JTextField();
-        avenueTF = new javax.swing.JTextField();
+        venueTF = new javax.swing.JTextField();
         addBtn = new javax.swing.JButton();
         displayAllBtn = new javax.swing.JButton();
-        nextBtn = new javax.swing.JButton();
+        frontBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTA = new javax.swing.JTextArea();
         backBtn = new javax.swing.JButton();
+        nextBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,17 +62,32 @@ public class EventsGUI extends javax.swing.JFrame {
 
         dateLbl.setText("Date");
 
-        avenueLbl.setText("Avenue");
+        venueLbl.setText("Venue");
 
-        assignedVolunteersLbl.setText("Assigned Volunteers");
+        assignedVolunteersLbl.setText("Volunteers");
 
         assignedVolunteersCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         addBtn.setText("Add Event");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
 
         displayAllBtn.setText("See All Events");
+        displayAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayAllBtnActionPerformed(evt);
+            }
+        });
 
-        nextBtn.setText("See Next");
+        frontBtn.setText("See Upcoming");
+        frontBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                frontBtnActionPerformed(evt);
+            }
+        });
 
         displayTA.setColumns(20);
         displayTA.setRows(5);
@@ -77,49 +100,53 @@ public class EventsGUI extends javax.swing.JFrame {
             }
         });
 
+        nextBtn.setText("Remove Latest");
+        nextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(welcomeLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(assignedVolunteersLbl)
+                                .addGap(18, 18, 18)
+                                .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(71, 71, 71)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(dateLbl)
-                                    .addComponent(avenueLbl)
+                                    .addComponent(venueLbl)
                                     .addComponent(titleLbl))
-                                .addGap(4, 4, 4))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(assignedVolunteersLbl)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(titleTF, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(dateTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(avenueTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(welcomeLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)))
-                .addComponent(addBtn)
-                .addGap(42, 42, 42))
+                                    .addComponent(venueTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addBtn)
+                    .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(nextBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(frontBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(displayAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(backBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(nextBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
@@ -134,30 +161,35 @@ public class EventsGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(titleLbl)
                             .addComponent(addBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateLbl))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateLbl))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(backBtn))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(titleTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(avenueTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(avenueLbl))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(assignedVolunteersLbl))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                            .addComponent(venueTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(venueLbl))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(assignedVolunteersLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(displayAllBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(frontBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(backBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(displayAllBtn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,6 +201,59 @@ public class EventsGUI extends javax.swing.JFrame {
         myGUI.setVisible(true);
         dispose();
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        // TODO add your handling code here:
+        //grab text fields
+        String title = titleTF.getText();
+        String date = dateTF.getText();
+        String venue = venueTF.getText();
+      //  Volunteer selected = (Volunteer) assignedVolunteersCB.getSelectedItem();
+        if(title!=null||date!=null||venue!=null){
+        //create instance
+        Event e = new Event();
+        e.setTitle(title);
+        e.setDate(date);
+        e.setVenue(venue);
+       // e.setAssignedVolunteers(selected);
+        //add to queue
+        myQueue.enqueue(e);
+        
+        displayTA.setText("Event title: "+title+"\nDate: "+date+"\nVenue:"+venue);    
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
+        }
+        
+    }//GEN-LAST:event_addBtnActionPerformed
+
+    private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
+        // TODO add your handling code here:
+        displayTA.setText("");
+        displayTA.append(myQueue.printQueue());
+    }//GEN-LAST:event_displayAllBtnActionPerformed
+
+    private void frontBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frontBtnActionPerformed
+        // TODO add your handling code here:
+        if(myQueue.isEmpty()){
+            displayTA.setText("There are no upcoming events.");
+        }
+        else{
+            Event nextEvent = (Event) myQueue.frontElement();
+            displayTA.setText("\nNext Event Title: "+nextEvent.getTitle()+"\nDate: "+nextEvent.getDate()+"\nVenue: "+nextEvent.getVenue());
+        }
+    }//GEN-LAST:event_frontBtnActionPerformed
+
+    private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
+        // TODO add your handling code here:
+        if(myQueue.isEmpty()){
+            displayTA.setText("There are no upcoming events.");
+        }
+        else{
+            Event nextEvent = (Event) myQueue.dequeue();
+            displayTA.setText("\nNext Event Title: "+nextEvent.getTitle()+"\nDate: "+nextEvent.getDate()+"\nVenue: "+nextEvent.getVenue());
+        }
+    }//GEN-LAST:event_nextBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,17 +284,18 @@ public class EventsGUI extends javax.swing.JFrame {
     private javax.swing.JButton addBtn;
     private javax.swing.JComboBox<String> assignedVolunteersCB;
     private javax.swing.JLabel assignedVolunteersLbl;
-    private javax.swing.JLabel avenueLbl;
-    private javax.swing.JTextField avenueTF;
     private javax.swing.JButton backBtn;
     private javax.swing.JLabel dateLbl;
     private javax.swing.JTextField dateTF;
     private javax.swing.JButton displayAllBtn;
     private javax.swing.JTextArea displayTA;
+    private javax.swing.JButton frontBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton nextBtn;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JTextField titleTF;
+    private javax.swing.JLabel venueLbl;
+    private javax.swing.JTextField venueTF;
     private javax.swing.JLabel welcomeLbl;
     // End of variables declaration//GEN-END:variables
 }

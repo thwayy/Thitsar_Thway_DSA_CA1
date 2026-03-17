@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Event {
     private String title;
     private String date;
-    private String avenue;
+    private String venue;
     private ArrayList<Volunteer> assignedVolunteers;
 
     public String getTitle() {
@@ -32,12 +32,12 @@ public class Event {
         this.date = date;
     }
 
-    public String getAvenue() {
-        return avenue;
+    public String getVenue() {
+        return venue;
     }
 
-    public void setAvenue(String avenue) {
-        this.avenue = avenue;
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
     public ArrayList<Volunteer> getAssignedVolunteers() {

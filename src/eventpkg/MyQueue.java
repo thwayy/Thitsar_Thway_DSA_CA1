@@ -40,7 +40,7 @@ public class MyQueue implements QueueInterface {
 
     @Override
     public void enqueue(Object newItem) {
-        theQueue.add(0, (Event) newItem);
+        theQueue.add((Event) newItem);
     }
 
     @Override
@@ -52,4 +52,13 @@ public class MyQueue implements QueueInterface {
         }
     }
 
+    @Override
+    public String printQueue() {
+        String result = "";
+        for (int i = 0; i < theQueue.size(); i++) {
+            Event currentEvent = theQueue.get(i);
+            result += "\nEvent title: "+ currentEvent.getTitle() + "\nDate: "+currentEvent.getDate()+"\nVenue: "+currentEvent.getVenue()+ "\n-----";
+        }
+        return result;
+    }
 }
