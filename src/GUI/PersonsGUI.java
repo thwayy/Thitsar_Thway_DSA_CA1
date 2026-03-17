@@ -5,9 +5,11 @@
 package GUI;
 
 import javax.swing.JOptionPane;
+import model.Person;
 import model.Resident;
 import model.Volunteer;
 import personpkg.MySLL;
+import personpkg.SLNode;
 
 /**
  *
@@ -45,7 +47,7 @@ public class PersonsGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTA = new javax.swing.JTextArea();
         displayAllBtn = new javax.swing.JButton();
-        traverseBtn = new javax.swing.JButton();
+        nextBtn = new javax.swing.JButton();
         volunteerRB = new javax.swing.JRadioButton();
         residentRB = new javax.swing.JRadioButton();
         idLbl = new javax.swing.JLabel();
@@ -57,6 +59,7 @@ public class PersonsGUI extends javax.swing.JFrame {
         phoneTF = new javax.swing.JTextField();
         availabilityTF = new javax.swing.JTextField();
         backBtn = new javax.swing.JButton();
+        displaySelectedBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,7 +87,7 @@ public class PersonsGUI extends javax.swing.JFrame {
             }
         });
 
-        traverseBtn.setText("Traverse");
+        nextBtn.setText("Next");
 
         roleBg.add(volunteerRB);
         volunteerRB.setText("Volunteer");
@@ -114,6 +117,13 @@ public class PersonsGUI extends javax.swing.JFrame {
         backBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backBtnActionPerformed(evt);
+            }
+        });
+
+        displaySelectedBtn.setText("Display Selected Role");
+        displaySelectedBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displaySelectedBtnActionPerformed(evt);
             }
         });
 
@@ -163,8 +173,9 @@ public class PersonsGUI extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(backBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(traverseBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(displayAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(nextBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(displayAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(displaySelectedBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -203,11 +214,12 @@ public class PersonsGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 17, Short.MAX_VALUE)
                         .addComponent(displayAllBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(traverseBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(displaySelectedBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nextBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(backBtn))
                     .addComponent(jScrollPane1))
                 .addGap(17, 17, 17))
@@ -261,8 +273,33 @@ public class PersonsGUI extends javax.swing.JFrame {
 
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
         // TODO add your handling code here:
-
+        displayTA.setText("");
+        if(myList.isEmpty()){
+            displayTA.setText("There are no entries in the list.");
+        }
+        for (int i = 1; i <= myList.size(); i++) {
+            SLNode node = (SLNode) myList.get(i);
+            Person p = (Person) node.getElement();
+            displayTA.append(p.getInfo() + "\n");
+        }
     }//GEN-LAST:event_displayAllBtnActionPerformed
+
+    private void displaySelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displaySelectedBtnActionPerformed
+        // TODO add your handling code here:
+        displayTA.setText("");
+        if(myList.isEmpty()){
+            displayTA.setText("There are no entries in the list.");
+        }
+        for (int i = 1; i <= myList.size(); i++) {
+            SLNode node = (SLNode) myList.get(i);
+            Person p = (Person) node.getElement();
+            if (volunteerRB.isSelected() && p instanceof Volunteer) {
+                displayTA.append(p.getInfo() + "\n");
+            } else if (residentRB.isSelected() && p instanceof Resident) {
+                displayTA.append(p.getInfo() + "\n");
+            }
+        }
+    }//GEN-LAST:event_displaySelectedBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,17 +333,18 @@ public class PersonsGUI extends javax.swing.JFrame {
     private javax.swing.JButton backBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton displayAllBtn;
+    private javax.swing.JButton displaySelectedBtn;
     private javax.swing.JTextArea displayTA;
     private javax.swing.JLabel idLbl;
     private javax.swing.JTextField idTF;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nameLbl;
     private javax.swing.JTextField nameTF;
+    private javax.swing.JButton nextBtn;
     private javax.swing.JLabel phoneLbl;
     private javax.swing.JTextField phoneTF;
     private javax.swing.JRadioButton residentRB;
     private javax.swing.ButtonGroup roleBg;
-    private javax.swing.JButton traverseBtn;
     private javax.swing.JButton updateBtn;
     private javax.swing.JRadioButton volunteerRB;
     private javax.swing.JLabel welcomeLbl;
