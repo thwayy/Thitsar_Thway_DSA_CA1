@@ -10,4 +10,17 @@ package personpkg;
  */
 public interface LinearListInterface {
     
+    public boolean isEmpty();
+    
+    public int size();
+    
+    public Object get(int position);
+    
+    public void remove(int position);
+    
+    public void add(int position, Object element);
+
+    public void add(Object element);
+    
+    public String printList();
 }
