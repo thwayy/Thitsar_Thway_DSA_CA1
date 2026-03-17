@@ -1,6 +1,7 @@
 package GUI;
 
 import helprequestpkg.MyPriorityQueue;
+import helprequestpkg.PQElement;
 import helprequestpkg.PQInterface;
 import javax.swing.JOptionPane;
 import model.HelpRequest;
@@ -24,6 +25,7 @@ public class RequestsGUI extends javax.swing.JFrame {
     public RequestsGUI() {
         myPQ = new MyPriorityQueue();
         initComponents();
+        //make id the size of the queue
         idTF.setText(String.valueOf(myPQ.size()));
     }
 
@@ -75,7 +77,12 @@ public class RequestsGUI extends javax.swing.JFrame {
             }
         });
 
-        deleteBtn.setText("Delete Request");
+        deleteBtn.setText("Delete Request By Id");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         displayAllBtn.setText("Display All");
         displayAllBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -92,12 +99,17 @@ public class RequestsGUI extends javax.swing.JFrame {
         });
 
         nextBtn.setText("Next Request");
+        nextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextBtnActionPerformed(evt);
+            }
+        });
 
         displayTA.setColumns(20);
         displayTA.setRows(5);
         jScrollPane1.setViewportView(displayTA);
 
-        updateBtn.setText("Update Request");
+        updateBtn.setText("Update Request By Id");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
@@ -141,17 +153,20 @@ public class RequestsGUI extends javax.swing.JFrame {
                                 .addComponent(displayAllBtn))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(descTF, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nextBtn)
-                            .addComponent(numberBtn)
-                            .addComponent(backBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nextBtn)
+                                    .addComponent(backBtn))
+                                .addGap(21, 21, 21))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(numberBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(jScrollPane1)))
+                .addGap(6, 6, 6))
             .addGroup(layout.createSequentialGroup()
                 .addGap(154, 154, 154)
                 .addComponent(titleLbl)
@@ -167,34 +182,32 @@ public class RequestsGUI extends javax.swing.JFrame {
                     .addComponent(addBtn)
                     .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(topicLbl)
-                    .addComponent(topicTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateBtn))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descLbl)
-                    .addComponent(descTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteBtn))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(priorityLbl)
-                            .addComponent(priorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(displayAllBtn)))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(topicLbl)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(topicTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateBtn)))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descLbl)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(descTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteBtn)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(priorityLbl)
+                    .addComponent(priorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(displayAllBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(numberBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(backBtn)))
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,24 +215,35 @@ public class RequestsGUI extends javax.swing.JFrame {
 
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
         // TODO add your handling code here:
-        displayTA.append(myPQ.printQueue());
+        displayTA.setText("");
+        if(myPQ.size()==0){
+            displayTA.append("There are no requests.");
+        }
+        else displayTA.append(myPQ.printQueue());
     }//GEN-LAST:event_displayAllBtnActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         try{
+        //grab text from textfields
         int id = Integer.parseInt(idTF.getText());
         String topic = topicTF.getText();
         String description = descTF.getText();
         int priorityKey = Integer.parseInt(priorityTF.getText());
-        
+        //prevent empty textfields
+        if(topic.isEmpty()||description.isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields");
+            return;
+        }
+        //create new instance
         HelpRequest r = new HelpRequest();
+        //set values
         r.setRequestId(id);
         r.setTopic(topic);
         r.setDescription(description);
+        //add to priority queue
         myPQ.enqueue(priorityKey, r);
         JOptionPane.showMessageDialog(rootPane, "Request added successfully.");
-
         }
         catch(NumberFormatException e){
             JOptionPane.showMessageDialog(rootPane, "Please enter a number for priority key");
@@ -239,8 +263,37 @@ public class RequestsGUI extends javax.swing.JFrame {
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
-        
-        
+        try{
+            int updateId = Integer.parseInt(JOptionPane.showInputDialog("Please enter the id of the request you'd like to update: "));
+            HelpRequest foundRequest = myPQ.findById(updateId);
+            if(foundRequest != null){
+                String newTopic = JOptionPane.showInputDialog("Please enter the updated topic:");
+                if(newTopic!=null){
+                    foundRequest.setTopic(newTopic);
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Please enter a topic.");
+                    return;
+                }
+                String newDesc = JOptionPane.showInputDialog("Please enter the updated description:");
+                if(newDesc!=null){
+                    foundRequest.setDescription(newDesc);
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Please enter a description.");
+                    return;
+                }
+                JOptionPane.showMessageDialog(rootPane, "Request has been updated");
+
+
+                displayTA.setText("");
+                displayTA.append("Request id "+foundRequest.getRequestId() +" has been updated to \n Topic: "+ newTopic +"\nDescription "+ newDesc+"\n");
+            }
+            else JOptionPane.showMessageDialog(rootPane, "Id not found!");
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a number for the id");
+        }
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
@@ -249,9 +302,34 @@ public class RequestsGUI extends javax.swing.JFrame {
         myGUI.setVisible(true);
         dispose();
     }//GEN-LAST:event_backBtnActionPerformed
-    private void findById(){
-        
-    }
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        try{
+            int deleteId = Integer.parseInt(JOptionPane.showInputDialog("Please enter the id of the request you'd like to delete: "));
+            HelpRequest foundRequest = myPQ.findById(deleteId);
+            if(foundRequest != null){
+                myPQ.deleteById(deleteId);
+                JOptionPane.showMessageDialog(rootPane, "Request deleted successfully.");
+                displayTA.setText("");
+                idTF.setText(String.valueOf(myPQ.size()));
+            }
+            else JOptionPane.showMessageDialog(rootPane, "Id not found!");
+
+        }
+        catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a number for the id");
+            
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
+        // TODO add your handling code here:
+        PQElement element = (PQElement) myPQ.dequeue();
+        HelpRequest hr = (HelpRequest) element.getHelpRequest();
+        displayTA.setText("Next request is Request id " + hr.getRequestId()+ " at priority "+ element.getPriorityKey()+"\nTopic: "+hr.getTopic() +"\nDescription:"+hr.getDescription());
+    }//GEN-LAST:event_nextBtnActionPerformed
+   
     /**
      * @param args the command line arguments
      */
