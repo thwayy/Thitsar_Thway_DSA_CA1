@@ -18,12 +18,13 @@ import model.HelpRequest;
 public class RequestsGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RequestsGUI.class.getName());
-    private PQInterface myPQ;
+    //for shared data
+    public static PQInterface myPQ = Main.requestQueue;
+
     /**
      * Creates new form requestsGUI
      */
     public RequestsGUI() {
-        myPQ = new MyPriorityQueue();
         initComponents();
         //make id the size of the queue
         idTF.setText(String.valueOf(myPQ.size()));
@@ -267,16 +268,16 @@ public class RequestsGUI extends javax.swing.JFrame {
             int updateId = Integer.parseInt(JOptionPane.showInputDialog("Please enter the id of the request you'd like to update: "));
             HelpRequest foundRequest = myPQ.findById(updateId);
             if(foundRequest != null){
-                String newTopic = JOptionPane.showInputDialog("Please enter the updated topic:");
-                if(newTopic!=null){
+                String newTopic = JOptionPane.showInputDialog("Please enter the updated topic:", foundRequest.getTopic());
+                if(newTopic!=null&&!newTopic.isEmpty()){
                     foundRequest.setTopic(newTopic);
                 }
                 else{
                     JOptionPane.showMessageDialog(rootPane, "Please enter a topic.");
                     return;
                 }
-                String newDesc = JOptionPane.showInputDialog("Please enter the updated description:");
-                if(newDesc!=null){
+                String newDesc = JOptionPane.showInputDialog("Please enter the updated description:", foundRequest.getDescription());
+                if(newDesc!=null&&!newDesc.isEmpty()){
                     foundRequest.setDescription(newDesc);
                 }
                 else{
@@ -325,9 +326,15 @@ public class RequestsGUI extends javax.swing.JFrame {
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         // TODO add your handling code here:
+        displayTA.setText("");
+        if(myPQ.size()==0){
+            displayTA.append("There are no requests.");
+        }
+        else{
         PQElement element = (PQElement) myPQ.dequeue();
         HelpRequest hr = (HelpRequest) element.getHelpRequest();
         displayTA.setText("Next request is Request id " + hr.getRequestId()+ " at priority "+ element.getPriorityKey()+"\nTopic: "+hr.getTopic() +"\nDescription:"+hr.getDescription());
+        }
     }//GEN-LAST:event_nextBtnActionPerformed
    
     /**

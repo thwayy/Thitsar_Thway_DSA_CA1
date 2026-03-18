@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import model.Person;
 import model.Resident;
 import model.Volunteer;
+import personpkg.LinearListInterface;
 import personpkg.MySLL;
 import personpkg.SLNode;
 
@@ -18,7 +19,8 @@ import personpkg.SLNode;
 public class PersonsGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PersonsGUI.class.getName());
-    private static MySLL myList = new MySLL();
+    //for shared data
+    private LinearListInterface myList = Main.personList;    
     /**
      * Creates new form ResidentsGUI
      */
@@ -256,6 +258,7 @@ public class PersonsGUI extends javax.swing.JFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         //grab text from text fields
+        try{
         int id = Integer.parseInt(idTF.getText());
         String name = nameTF.getText();
         String phone = phoneTF.getText();
@@ -284,6 +287,10 @@ public class PersonsGUI extends javax.swing.JFrame {
         nameTF.setText("");
         phoneTF.setText("");
         availabilityTF.setText("");
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a number for the id");
+        }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
@@ -348,10 +355,10 @@ public class PersonsGUI extends javax.swing.JFrame {
             SLNode node = (SLNode) myList.get(i);
             Person p = (Person) node.getElement();
             if (p.getId() == updateId) {
-                String newName = JOptionPane.showInputDialog("Enter new name:");
+                String newName = JOptionPane.showInputDialog("Enter new name:",p.getName());
                 if (newName == null || newName.isEmpty()) return;
                 
-                String newPhone = JOptionPane.showInputDialog("Enter new phone:");
+                String newPhone = JOptionPane.showInputDialog("Enter new phone:", p.getPhone());
                 if (newPhone == null || newPhone.isEmpty()) return;
                 
                 p.setName(newName);
@@ -394,9 +401,9 @@ public class PersonsGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchBtnActionPerformed
     //for volunteer combobox in eventsGUI
-    public static MySLL getList() {
-        return myList;
-    }
+//    public static MySLL getList() {
+//        return myList;
+//    }
     /**
      * @param args the command line arguments
      */
