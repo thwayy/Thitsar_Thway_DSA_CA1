@@ -11,10 +11,12 @@ package model;
  */
 public class Resident extends Person {
     
+    //constructor
     public Resident(int id, String name, String phone) {
         super(id, name, phone);
     }
 
+    //method to return info
     @Override
     public String getInfo() {
         return "Resident Id: "+getId()+"\nResident Name: "+getName()+"\nPhone: "+getPhone()+"\n";

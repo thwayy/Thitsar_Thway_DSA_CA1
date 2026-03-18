@@ -53,21 +53,22 @@ public static MyPriorityQueue requestQueue = new MyPriorityQueue();
         eventQueue.enqueue(e1);
         eventQueue.enqueue(e2);
 
-        // populate help requests
+        //populate help requests
         HelpRequest hr1 = new HelpRequest();
-        hr1.setRequestId(1);
+        hr1.setRequestId(0);
         hr1.setTopic("Smartphone");
-        hr1.setDescription("Cannot figure out how to download apps");
+        hr1.setDescription("Wants to know how to download apps");
 
         HelpRequest hr2 = new HelpRequest();
-        hr2.setRequestId(2);
+        hr2.setRequestId(1);
         hr2.setTopic("Online Banking");
         hr2.setDescription("Locked out of bank account");
 
         requestQueue.enqueue(2, hr1);
         requestQueue.enqueue(5, hr2);
         //launch main gui
-        new MainGUI().setVisible(true);
+        MainGUI myGUI = new MainGUI();
+        myGUI.setVisible(true);
 
     }
 

@@ -26,7 +26,7 @@ public class RequestsGUI extends javax.swing.JFrame {
      */
     public RequestsGUI() {
         initComponents();
-        //make id the size of the queue
+        //populate id as the size of the queue, starting from 0 
         idTF.setText(String.valueOf(myPQ.size()));
     }
 
@@ -217,9 +217,11 @@ public class RequestsGUI extends javax.swing.JFrame {
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
         // TODO add your handling code here:
         displayTA.setText("");
+        //check for empty queue
         if(myPQ.size()==0){
             displayTA.append("There are no requests.");
         }
+        //print queue
         else displayTA.append(myPQ.printQueue());
     }//GEN-LAST:event_displayAllBtnActionPerformed
 
@@ -249,8 +251,9 @@ public class RequestsGUI extends javax.swing.JFrame {
         catch(NumberFormatException e){
             JOptionPane.showMessageDialog(rootPane, "Please enter a number for priority key");
         }
-        
+        //update id to be size of the queue
         idTF.setText(String.valueOf(myPQ.size()));
+        //clear text fields
         topicTF.setText("");
         descTF.setText("");
         priorityTF.setText("");
@@ -265,10 +268,13 @@ public class RequestsGUI extends javax.swing.JFrame {
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
         try{
+            //get id to be updated
             int updateId = Integer.parseInt(JOptionPane.showInputDialog("Please enter the id of the request you'd like to update: "));
             HelpRequest foundRequest = myPQ.findById(updateId);
+            //check if id exists
             if(foundRequest != null){
                 String newTopic = JOptionPane.showInputDialog("Please enter the updated topic:", foundRequest.getTopic());
+                //check for empty input
                 if(newTopic!=null&&!newTopic.isEmpty()){
                     foundRequest.setTopic(newTopic);
                 }
@@ -277,6 +283,7 @@ public class RequestsGUI extends javax.swing.JFrame {
                     return;
                 }
                 String newDesc = JOptionPane.showInputDialog("Please enter the updated description:", foundRequest.getDescription());
+                //check for empty input
                 if(newDesc!=null&&!newDesc.isEmpty()){
                     foundRequest.setDescription(newDesc);
                 }
@@ -286,7 +293,7 @@ public class RequestsGUI extends javax.swing.JFrame {
                 }
                 JOptionPane.showMessageDialog(rootPane, "Request has been updated");
 
-
+                //print updated request
                 displayTA.setText("");
                 displayTA.append("Request id "+foundRequest.getRequestId() +" has been updated to \n Topic: "+ newTopic +"\nDescription "+ newDesc+"\n");
             }
@@ -307,30 +314,32 @@ public class RequestsGUI extends javax.swing.JFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
+            //get id to be deleted
             int deleteId = Integer.parseInt(JOptionPane.showInputDialog("Please enter the id of the request you'd like to delete: "));
             HelpRequest foundRequest = myPQ.findById(deleteId);
+            //check if id exists
             if(foundRequest != null){
                 myPQ.deleteById(deleteId);
                 JOptionPane.showMessageDialog(rootPane, "Request deleted successfully.");
                 displayTA.setText("");
-                idTF.setText(String.valueOf(myPQ.size()));
             }
             else JOptionPane.showMessageDialog(rootPane, "Id not found!");
 
         }
         catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(rootPane, "Please enter a number for the id");
-            
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         // TODO add your handling code here:
         displayTA.setText("");
-        if(myPQ.size()==0){
+        //check if empty
+        if(myPQ.isEmpty()){
             displayTA.append("There are no requests.");
         }
         else{
+        //dequeue to traverse through queue
         PQElement element = (PQElement) myPQ.dequeue();
         HelpRequest hr = (HelpRequest) element.getHelpRequest();
         displayTA.setText("Next request is Request id " + hr.getRequestId()+ " at priority "+ element.getPriorityKey()+"\nTopic: "+hr.getTopic() +"\nDescription:"+hr.getDescription());

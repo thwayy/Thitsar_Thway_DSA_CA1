@@ -9,14 +9,17 @@ package model;
  * @author Thitsar Thway
  */
 public class Volunteer extends Person {
-
+    
+    //fields
     private String availability;
 
+    //constructor
     public Volunteer(int id, String name, String phone, String availability) {
         super(id, name, phone);
         this.availability = availability;
     }
 
+    //getters and setters
     public String getAvailability() {
         return availability;
     }
@@ -25,14 +28,11 @@ public class Volunteer extends Person {
         this.availability = availability;
     }
 
+    //method to display info
     @Override
     public String getInfo() {
         return "Volunteer Id: " + getId() + "\nVolunteer Name: " + getName() + "\nPhone: " + getPhone() + "\nAvailability: " + getAvailability() + "\n";
     }
 
-    @Override
-    public String toString() {
-        return getName();
-    }
 
 }

@@ -26,6 +26,7 @@ public class PersonsGUI extends javax.swing.JFrame {
      */
     public PersonsGUI() {
         initComponents();
+        //select volunteer at start up
         volunteerRB.setSelected(true);
     }
 
@@ -238,6 +239,7 @@ public class PersonsGUI extends javax.swing.JFrame {
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
+        //return to MainGUI
         MainGUI myGUI = new MainGUI();
         myGUI.setVisible(true);
         dispose();
@@ -245,44 +247,57 @@ public class PersonsGUI extends javax.swing.JFrame {
 
     private void volunteerRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerRBActionPerformed
         // TODO add your handling code here:
+        //show the availability section
         availabilityLbl.setVisible(true);
         availabilityTF.setVisible(true);
     }//GEN-LAST:event_volunteerRBActionPerformed
 
     private void residentRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_residentRBActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:       
+        //hide the availability section
         availabilityLbl.setVisible(false);
         availabilityTF.setVisible(false);
     }//GEN-LAST:event_residentRBActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        //grab text from text fields
         try{
+        //grab text from text fields
         int id = Integer.parseInt(idTF.getText());
         String name = nameTF.getText();
         String phone = phoneTF.getText();
         
         if (volunteerRB.isSelected()) {
             String availability = availabilityTF.getText();
+            
+            //check empty text fields
             if(name.isEmpty()||phone.isEmpty()||availability.isEmpty()){
                 JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
                 return;
             }
+            
             Volunteer v = new Volunteer(id, name, phone, availability);
             myList.add(v);
+            
         } else if (residentRB.isSelected()) {
+            
+            //check empty text fields
             if(name.isEmpty()||phone.isEmpty()){
                 JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
                 return;
             }
+            
             Resident r = new Resident(id, name, phone);
             myList.add(r);
+            
         } else {
+            //check option button not selected
             JOptionPane.showMessageDialog(rootPane, "Please select a role.");
             return;
         }
         JOptionPane.showMessageDialog(rootPane, "Person added successfully.");
+        
+        //clear text fields
         idTF.setText("");
         nameTF.setText("");
         phoneTF.setText("");
@@ -294,11 +309,13 @@ public class PersonsGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
-        // TODO add your handling code here:
+        // clear display area
         displayTA.setText("");
+        //check empty list
         if(myList.isEmpty()){
             displayTA.setText("There are no entries in the list.");
         }
+        //loop and show entries
         for (int i = 1; i <= myList.size(); i++) {
             SLNode node = (SLNode) myList.get(i);
             Person p = (Person) node.getElement();
@@ -307,11 +324,13 @@ public class PersonsGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_displayAllBtnActionPerformed
 
     private void displaySelectedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displaySelectedBtnActionPerformed
-        // TODO add your handling code here:
+        // clear display area
         displayTA.setText("");
+        //check empty list
         if(myList.isEmpty()){
             displayTA.setText("There are no entries in the list.");
         }
+        //loop and show entries according to role type
         for (int i = 1; i <= myList.size(); i++) {
             SLNode node = (SLNode) myList.get(i);
             Person p = (Person) node.getElement();
@@ -328,7 +347,7 @@ public class PersonsGUI extends javax.swing.JFrame {
         try{
             //get the id to delete
             int deleteId = Integer.parseInt(JOptionPane.showInputDialog("Please enter id of person to remove"));
-            //find it in list
+            //find id in list
             for(int i = 1;i<=myList.size();i++){
                 SLNode node = (SLNode) myList.get(i);
                 Person p = (Person) node.getElement();
@@ -338,7 +357,7 @@ public class PersonsGUI extends javax.swing.JFrame {
                     return;
                 }
             }
-            //not found
+            //check not found
             JOptionPane.showMessageDialog(rootPane, "Id not found.");
         }
         catch(NumberFormatException e){
@@ -349,24 +368,29 @@ public class PersonsGUI extends javax.swing.JFrame {
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
         try {
+        //get the id to update
         int updateId = Integer.parseInt(JOptionPane.showInputDialog("Enter ID of person to update:"));
-        
+        //find id in list
         for (int i = 1; i <= myList.size(); i++) {
             SLNode node = (SLNode) myList.get(i);
             Person p = (Person) node.getElement();
+            
             if (p.getId() == updateId) {
-                String newName = JOptionPane.showInputDialog("Enter new name:",p.getName());
+                //get name
+                String newName = JOptionPane.showInputDialog("Enter new name:", p.getName());
+                //check empty input
                 if (newName == null || newName.isEmpty()) return;
-                
+                //get phone
                 String newPhone = JOptionPane.showInputDialog("Enter new phone:", p.getPhone());
+                //check empty input
                 if (newPhone == null || newPhone.isEmpty()) return;
-                
+                //set name and phone
                 p.setName(newName);
                 p.setPhone(newPhone);
-                
+                //if volunteer, set availability
                 if (p instanceof Volunteer volunteer) {
                     String newAvailability = JOptionPane.showInputDialog("Enter new availability:", volunteer.getAvailability());
-                    if (newAvailability == null || newAvailability.trim().isEmpty()) return;
+                    if (newAvailability == null || newAvailability.isEmpty()) return;
                     volunteer.setAvailability(newAvailability);
                 }
                 
@@ -384,7 +408,9 @@ public class PersonsGUI extends javax.swing.JFrame {
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
         try{
+            //get id to search
             int searchId = Integer.parseInt(JOptionPane.showInputDialog("Enter id of person to search"));
+            //find in list
             for(int i=1;i<=myList.size();i++){
                 SLNode node = (SLNode) myList.get(i);
                 Person p = (Person) node.getElement();

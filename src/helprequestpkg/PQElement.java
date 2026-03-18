@@ -35,6 +35,7 @@ public class PQElement {
         this.request = newRequest;
     }
     
+    //to be called in printQueue method of MyPriorityQueue
     public String printHelpRequest(){
         String display = "Request Id: " + request.getRequestId()+ "\nTopic: "+request.getTopic()+"\nDescription: "+request.getDescription()+"\n-----";
         return display;

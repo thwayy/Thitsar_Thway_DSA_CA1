@@ -9,10 +9,12 @@ package model;
  * @author Thitsar Thway
  */
 public class HelpRequest {
+    //fields
     private int requestId;
     private String topic;
     private String description;
 
+    //getters and setters
     public int getRequestId() {
         return requestId;
     }

@@ -1,6 +1,5 @@
 package GUI;
 
-import eventpkg.MyQueue;
 import eventpkg.QueueInterface;
 import javax.swing.JOptionPane;
 import model.Event;
@@ -255,7 +254,6 @@ public class EventsGUI extends javax.swing.JFrame {
             }
             //add to queue
             myQueue.enqueue(e);
-
             displayTA.setText(myQueue.printQueue());
         } else {
             JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
@@ -266,6 +264,7 @@ public class EventsGUI extends javax.swing.JFrame {
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
         // TODO add your handling code here:
         displayTA.setText("");
+        //check if empty
         if (myQueue.isEmpty()) {
             displayTA.setText("There are no scheduled events.");
         } else
@@ -274,9 +273,11 @@ public class EventsGUI extends javax.swing.JFrame {
 
     private void frontBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frontBtnActionPerformed
         // TODO add your handling code here:
+        //check if empty
         if (myQueue.isEmpty()) {
             displayTA.setText("There are no upcoming events.");
         } else {
+            //return element at the front of queue
             Event nextEvent = (Event) myQueue.frontElement();
             displayTA.setText("\nNext Event Title: " + nextEvent.getTitle() + "\nDate: " + nextEvent.getDate() + "\nVenue: " + nextEvent.getVenue());
         }
@@ -284,9 +285,11 @@ public class EventsGUI extends javax.swing.JFrame {
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         // TODO add your handling code here:
+        //check if empty
         if (myQueue.isEmpty()) {
             displayTA.setText("There are no upcoming events.");
         } else {
+            //dequeue to traverse through queue
             Event nextEvent = (Event) myQueue.dequeue();
             displayTA.setText("\nNext Event Title: " + nextEvent.getTitle() + "\nDate: " + nextEvent.getDate() + "\nVenue: " + nextEvent.getVenue());
         }
@@ -294,22 +297,28 @@ public class EventsGUI extends javax.swing.JFrame {
 
     private void assignMoreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignMoreBtnActionPerformed
         // TODO add your handling code here:
+        //get volunteer from combobox
         String selectedVolunteer = (String) assignedVolunteersCB.getSelectedItem();
+        //check if combobox is not populated
         if (selectedVolunteer == null) {
             JOptionPane.showMessageDialog(rootPane, "No volunteers available. Please add volunteers first.");
             return;
         }
+        //get event title
         String eventTitle = JOptionPane.showInputDialog("Enter the title of the event to assign to:");
         if (eventTitle == null || eventTitle.isEmpty()) {
             return;
         }
         //find event title in queue
         for (int i = 0; i < myQueue.size(); i++) {
+            //dequeue each event to find title match
             Event e = (Event) myQueue.dequeue();
+            //add to assigned volunteers arraylist if found
             if (e.getTitle().equalsIgnoreCase(eventTitle)) {
                 e.getAssignedVolunteers().add(selectedVolunteer);
+                //re-enqueue updated event
                 myQueue.enqueue(e);
-                // re-enqueue remaining
+                // re-enqueue remaining events
                 for (int j = i + 1; j < myQueue.size(); j++) {
                     myQueue.enqueue(myQueue.dequeue());
                 }
@@ -321,13 +330,14 @@ public class EventsGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "Event not found.");
     }//GEN-LAST:event_assignMoreBtnActionPerformed
     private void populateVolunteers() {
+        //clear before populating to remove default values and avoid duplicates
         assignedVolunteersCB.removeAllItems();
-
+        //loop personList to find volunteers
         for (int i = 1; i <= Main.personList.size(); i++) {
             SLNode node = (SLNode) Main.personList.get(i);
             Person p = (Person) node.getElement();
-
             if (p instanceof Volunteer) {
+                //add volunteer names to combobox
                 assignedVolunteersCB.addItem(p.getName());
             }
         }

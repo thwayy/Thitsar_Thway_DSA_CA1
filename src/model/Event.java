@@ -12,11 +12,14 @@ import java.util.ArrayList;
  */
 public class Event {
 
+    //fields
     private String title;
     private String date;
     private String venue;
     private ArrayList<String> assignedVolunteers = new ArrayList<>();
-
+    
+    
+    //getters and setters
     public String getTitle() {
         return title;
     }

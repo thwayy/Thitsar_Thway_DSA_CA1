@@ -72,7 +72,7 @@ public class MyPriorityQueue implements PQInterface {
         }
         return position;
     }
-    //for update and delete functionality in the GUI
+    //for update functionality in the requests GUI
     @Override
     public HelpRequest findById(int id) {
         for (int i = 0; i < thePQ.size(); i++) {
@@ -85,6 +85,7 @@ public class MyPriorityQueue implements PQInterface {
     return null;
     }
 
+    //for the delete functionality in the requests GUI
     @Override
     public void deleteById(int id) {
         for (int i = 0; i < thePQ.size(); i++) {
