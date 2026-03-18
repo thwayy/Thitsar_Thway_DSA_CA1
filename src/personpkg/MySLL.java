@@ -8,7 +8,7 @@ package personpkg;
  *
  * @author Thitsar Thway
  */
-public class MySLL implements LinearListInterface{
+public class MySLL implements LinearListInterface {
     private SLNode head;
     private int size;
     private SLNode currNode;

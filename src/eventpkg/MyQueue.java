@@ -57,7 +57,7 @@ public class MyQueue implements QueueInterface {
         String result = "";
         for (int i = 0; i < theQueue.size(); i++) {
             Event currentEvent = theQueue.get(i);
-            result += "\nEvent title: "+ currentEvent.getTitle() + "\nDate: "+currentEvent.getDate()+"\nVenue: "+currentEvent.getVenue()+ "\n-----";
+            result += "\nEvent title: "+ currentEvent.getTitle() + "\nDate: "+currentEvent.getDate()+"\nVenue: "+currentEvent.getVenue()+"\nVolunteers: " + String.join(", ", currentEvent.getAssignedVolunteers())+"\n-----";
         }
         return result;
     }

@@ -4,14 +4,12 @@ package model;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-
 /**
  *
  * @author Thitsar Thway
  */
 public class Volunteer extends Person {
-    
+
     private String availability;
 
     public Volunteer(int id, String name, String phone, String availability) {
@@ -29,9 +27,12 @@ public class Volunteer extends Person {
 
     @Override
     public String getInfo() {
-        return "Volunteer Id: "+getId()+"\nVolunteer Name: "+getName()+"\nPhone: "+getPhone()+"\nAvailability: "+getAvailability()+"\n";
+        return "Volunteer Id: " + getId() + "\nVolunteer Name: " + getName() + "\nPhone: " + getPhone() + "\nAvailability: " + getAvailability() + "\n";
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

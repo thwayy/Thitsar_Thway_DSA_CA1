@@ -4,27 +4,30 @@ import eventpkg.MyQueue;
 import eventpkg.QueueInterface;
 import javax.swing.JOptionPane;
 import model.Event;
+import model.Person;
 import model.Volunteer;
+import personpkg.SLNode;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Thitsar Thway
  */
 public class EventsGUI extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EventsGUI.class.getName());
     private QueueInterface myQueue;
+
     /**
      * Creates new form eventsGUI
      */
     public EventsGUI() {
         initComponents();
         myQueue = new MyQueue();
+        populateVolunteers();
     }
 
     /**
@@ -52,9 +55,9 @@ public class EventsGUI extends javax.swing.JFrame {
         displayTA = new javax.swing.JTextArea();
         backBtn = new javax.swing.JButton();
         nextBtn = new javax.swing.JButton();
-        instructionLbl1 = new javax.swing.JLabel();
         instructionLbl2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        assignMoreBtn = new javax.swing.JButton();
+        instructionLbl3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,112 +113,117 @@ public class EventsGUI extends javax.swing.JFrame {
             }
         });
 
-        instructionLbl1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        instructionLbl1.setForeground(new java.awt.Color(255, 0, 0));
-        instructionLbl1.setText("Select a volunteer to assign to the next upcoming event.");
-
         instructionLbl2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        instructionLbl2.setForeground(new java.awt.Color(255, 51, 51));
-        instructionLbl2.setText("To assign multiple volunteers, select and assign multiple times.");
+        instructionLbl2.setForeground(new java.awt.Color(0, 0, 255));
+        instructionLbl2.setText("click assign more volunteers.");
 
-        jButton1.setText("Assign Volunteer");
+        assignMoreBtn.setText("Assign More Volunteers");
+        assignMoreBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignMoreBtnActionPerformed(evt);
+            }
+        });
+
+        instructionLbl3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        instructionLbl3.setForeground(new java.awt.Color(0, 0, 255));
+        instructionLbl3.setText("To assign multiple volunteers,");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dateLbl)
-                    .addComponent(venueLbl)
-                    .addComponent(titleLbl))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titleTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBtn))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(venueTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(welcomeLbl))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(assignedVolunteersLbl)
-                        .addGap(18, 18, 18)
-                        .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)))
-                .addContainerGap(12, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(instructionLbl2)
-                    .addComponent(instructionLbl1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(frontBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(displayAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nextBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(171, 171, 171)
+                                .addComponent(welcomeLbl))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(dateLbl)
+                                            .addComponent(venueLbl)
+                                            .addComponent(titleLbl))
+                                        .addGap(41, 41, 41)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(titleTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(venueTF, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(assignMoreBtn))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(assignedVolunteersLbl)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(instructionLbl3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(frontBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(displayAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nextBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(instructionLbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(welcomeLbl)
-                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(backBtn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(venueTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(venueLbl)))
+                            .addComponent(venueLbl)
+                            .addComponent(assignMoreBtn)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(titleLbl)
-                            .addComponent(titleTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dateLbl))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(backBtn)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(instructionLbl1)
+                            .addComponent(titleTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateLbl)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(assignedVolunteersLbl))
+                    .addComponent(instructionLbl3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(instructionLbl2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(assignedVolunteersCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(assignedVolunteersLbl)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(frontBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(displayAllBtn))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                        .addComponent(displayAllBtn)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,52 +242,95 @@ public class EventsGUI extends javax.swing.JFrame {
         String title = titleTF.getText();
         String date = dateTF.getText();
         String venue = venueTF.getText();
-      //  Volunteer selected = (Volunteer) assignedVolunteersCB.getSelectedItem();
-        if(title!=null||date!=null||venue!=null){
-        //create instance
-        Event e = new Event();
-        e.setTitle(title);
-        e.setDate(date);
-        e.setVenue(venue);
-       // e.setAssignedVolunteers(selected);
-        //add to queue
-        myQueue.enqueue(e);
-        
-        displayTA.setText("Event title: "+title+"\nDate: "+date+"\nVenue:"+venue);    
-        }
-        else{
+        String selected = (String) assignedVolunteersCB.getSelectedItem();
+        //  Volunteer selected = (Volunteer) assignedVolunteersCB.getSelectedItem();
+        if (!title.isEmpty() || !date.isEmpty() || !venue.isEmpty()) {
+            //create instance
+            Event e = new Event();
+            e.setTitle(title);
+            e.setDate(date);
+            e.setVenue(venue);
+            if (selected != null) {
+                e.getAssignedVolunteers().add(selected);
+            }
+            //add to queue
+            myQueue.enqueue(e);
+
+            displayTA.setText(myQueue.printQueue());
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Please fill out the text fields.");
         }
-        
+
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void displayAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAllBtnActionPerformed
         // TODO add your handling code here:
         displayTA.setText("");
-        displayTA.append(myQueue.printQueue());
+        if (myQueue.isEmpty()) {
+            displayTA.setText("There are no scheduled events.");
+        } else
+            displayTA.setText(myQueue.printQueue());
     }//GEN-LAST:event_displayAllBtnActionPerformed
 
     private void frontBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frontBtnActionPerformed
         // TODO add your handling code here:
-        if(myQueue.isEmpty()){
+        if (myQueue.isEmpty()) {
             displayTA.setText("There are no upcoming events.");
-        }
-        else{
+        } else {
             Event nextEvent = (Event) myQueue.frontElement();
-            displayTA.setText("\nNext Event Title: "+nextEvent.getTitle()+"\nDate: "+nextEvent.getDate()+"\nVenue: "+nextEvent.getVenue());
+            displayTA.setText("\nNext Event Title: " + nextEvent.getTitle() + "\nDate: " + nextEvent.getDate() + "\nVenue: " + nextEvent.getVenue());
         }
     }//GEN-LAST:event_frontBtnActionPerformed
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
         // TODO add your handling code here:
-        if(myQueue.isEmpty()){
+        if (myQueue.isEmpty()) {
             displayTA.setText("There are no upcoming events.");
-        }
-        else{
+        } else {
             Event nextEvent = (Event) myQueue.dequeue();
-            displayTA.setText("\nNext Event Title: "+nextEvent.getTitle()+"\nDate: "+nextEvent.getDate()+"\nVenue: "+nextEvent.getVenue());
+            displayTA.setText("\nNext Event Title: " + nextEvent.getTitle() + "\nDate: " + nextEvent.getDate() + "\nVenue: " + nextEvent.getVenue());
         }
     }//GEN-LAST:event_nextBtnActionPerformed
+
+    private void assignMoreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignMoreBtnActionPerformed
+        // TODO add your handling code here:
+        String selectedVolunteer = (String) assignedVolunteersCB.getSelectedItem();
+        String eventTitle = JOptionPane.showInputDialog("Enter the title of the event to assign to:");
+        if (eventTitle == null || eventTitle.trim().isEmpty()) {
+            return;
+        }
+
+        //find event title in queue
+        int size = myQueue.size();
+        for (int i = 0; i < size; i++) {
+            Event e = (Event) myQueue.dequeue();
+            if (e.getTitle().equalsIgnoreCase(eventTitle)) {
+                e.getAssignedVolunteers().add(selectedVolunteer);
+                myQueue.enqueue(e);
+                // re-enqueue remaining
+                for (int j = i + 1; j < size; j++) {
+                    myQueue.enqueue(myQueue.dequeue());
+                }
+                JOptionPane.showMessageDialog(rootPane, selectedVolunteer + " assigned to " + eventTitle);
+                return;
+            }
+            myQueue.enqueue(e);
+        }
+        JOptionPane.showMessageDialog(rootPane, "Event not found.");
+
+    }//GEN-LAST:event_assignMoreBtnActionPerformed
+    private void populateVolunteers() {
+        assignedVolunteersCB.removeAllItems();
+
+        for (int i = 1; i <= PersonsGUI.getList().size(); i++) {
+            SLNode node = (SLNode) PersonsGUI.getList().get(i);
+            Person p = (Person) node.getElement();
+
+            if (p instanceof Volunteer) {
+                assignedVolunteersCB.addItem(p.getName());
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -308,6 +359,7 @@ public class EventsGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
+    private javax.swing.JButton assignMoreBtn;
     private javax.swing.JComboBox<String> assignedVolunteersCB;
     private javax.swing.JLabel assignedVolunteersLbl;
     private javax.swing.JButton backBtn;
@@ -316,9 +368,8 @@ public class EventsGUI extends javax.swing.JFrame {
     private javax.swing.JButton displayAllBtn;
     private javax.swing.JTextArea displayTA;
     private javax.swing.JButton frontBtn;
-    private javax.swing.JLabel instructionLbl1;
     private javax.swing.JLabel instructionLbl2;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel instructionLbl3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton nextBtn;
     private javax.swing.JLabel titleLbl;

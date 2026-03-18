@@ -1,17 +1,20 @@
 package GUI;
 
+
+import personpkg.MySLL;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Thitsar Thway
  */
 public class MainGUI extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainGUI.class.getName());
+    private MySLL personList;
 
     /**
      * Creates new form menuGUI
@@ -87,8 +90,8 @@ public class MainGUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(exitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(personScreenBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(requestScreenBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(eventScreenBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(eventScreenBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(requestScreenBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -121,7 +124,7 @@ public class MainGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         PersonsGUI pGUI = new PersonsGUI();
         pGUI.setVisible(true);
-        dispose();
+        this.setVisible(false);
 
     }//GEN-LAST:event_personScreenBtnActionPerformed
 
@@ -129,17 +132,17 @@ public class MainGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         RequestsGUI rGUI = new RequestsGUI();
         rGUI.setVisible(true);
-        dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_requestScreenBtnActionPerformed
 
     private void eventScreenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventScreenBtnActionPerformed
         // TODO add your handling code here:
         EventsGUI eGUI = new EventsGUI();
         eGUI.setVisible(true);
-        dispose();
+        this.setVisible(false);
 
     }//GEN-LAST:event_eventScreenBtnActionPerformed
-
+ 
     /**
      * @param args the command line arguments
      */

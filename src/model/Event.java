@@ -11,10 +11,11 @@ import java.util.ArrayList;
  * @author Thitsar Thway
  */
 public class Event {
+
     private String title;
     private String date;
     private String venue;
-    private ArrayList<Volunteer> assignedVolunteers;
+    private ArrayList<String> assignedVolunteers = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -40,12 +41,12 @@ public class Event {
         this.venue = venue;
     }
 
-    public ArrayList<Volunteer> getAssignedVolunteers() {
+    public ArrayList<String> getAssignedVolunteers() {
         return assignedVolunteers;
     }
 
-    public void setAssignedVolunteers(ArrayList<Volunteer> assignedVolunteers) {
+    public void setAssignedVolunteers(ArrayList<String> assignedVolunteers) {
         this.assignedVolunteers = assignedVolunteers;
     }
-    
+
 }
